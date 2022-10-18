@@ -51,10 +51,6 @@ class CMakeBuild(build_ext):
         subprocess.check_call(cmake_args_build)
 
 
-def binary_suffix():
-    return ".exe" if WINDOWS else ""
-
-
 setup(name="pycpp",
     version=version(),
     description="Python cpp wrapper demo",
