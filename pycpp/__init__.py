@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import platform
-import numpy as np
 from ctypes import CDLL, Structure, POINTER, c_void_p, c_float
 
 
@@ -9,7 +8,7 @@ class Vector3(Structure):
     _fields_ = [("x", c_float), ("y", c_float), ("z", c_float)]
 
     def add(self, other: Vector3) -> Vector3:
-        return _CppLib().vector3_add(self, other)
+        return _CppLib()._vector3_add(self, other)
 
     def __repr__(self):
         return f"Vector3(x={self.x}, y={self.y}, z={self.z})"
@@ -18,18 +17,22 @@ class Vector3(Structure):
 class Matrix4:
 
     def __init__(self):
-        self._ptr = CppLib().matrix4_create()
+        self._ptr = CppLib()._matrix4_create()
 
     def identity(self) -> Matrix4:
-        CppLib().matrix4_identity(self._ptr)
+        CppLib()._matrix4_identity(self._ptr)
+        return self
+
+    def set_position(self, x: float, y: float, z: float) -> Matrix4:
+        CppLib()._matrix4_set_position(self._ptr, x, y, z)
         return self
 
     def __repr__(self):
-        data = CppLib().matrix4_data(self._ptr)
-        return f"Matrix4({data[0]}, {data[1]}, {data[2]}, {data[3]}\n" \
-               f"{data[4]}, {data[5]}, {data[6]}, {data[7]}\n" \
-               f"{data[8]}, {data[9]}, {data[10]}, {data[11]}\n" \
-               f"{data[12]}, {data[13]}, {data[14]}, {data[15]})"
+        data = CppLib()._matrix4_data(self._ptr)
+        return f"Matrix4({data[0]}, {data[4]}, {data[8]}, {data[12]}\n" \
+               f"{data[1]}, {data[5]}, {data[9]}, {data[13]}\n" \
+               f"{data[2]}, {data[7]}, {data[10]}, {data[14]}\n" \
+               f"{data[3]}, {data[7]}, {data[11]}, {data[15]})"
 
 
 class _CppLib:
@@ -55,31 +58,34 @@ class _CppLib:
 
         self._handle = CDLL(f"{__file__}/../build/bin/{prefix()}vecmathc{suffix()}")
 
-        self.vector3_add = self._handle.vector3_add
-        self.vector3_add.argtypes = [Vector3, Vector3]
-        self.vector3_add.restype = Vector3
+        self._vector3_add = self._handle.vector3_add
+        self._vector3_add.argtypes = [Vector3, Vector3]
+        self._vector3_add.restype = Vector3
 
-        self.vector3_sub = self._handle.vector3_sub
-        self.vector3_sub.argtypes = [Vector3, Vector3]
-        self.vector3_sub.restype = Vector3
+        self._vector3_sub = self._handle.vector3_sub
+        self._vector3_sub.argtypes = [Vector3, Vector3]
+        self._vector3_sub.restype = Vector3
 
-        self.vector3_div = self._handle.vector3_div
-        self.vector3_div.argtypes = [Vector3, Vector3]
-        self.vector3_div.restype = Vector3
+        self._vector3_div = self._handle.vector3_div
+        self._vector3_div.argtypes = [Vector3, Vector3]
+        self._vector3_div.restype = Vector3
 
-        self.vector3_mul = self._handle.vector3_mul
-        self.vector3_mul.argtypes = [Vector3, Vector3]
-        self.vector3_mul.restype = Vector3
+        self._vector3_mul = self._handle.vector3_mul
+        self._vector3_mul.argtypes = [Vector3, Vector3]
+        self._vector3_mul.restype = Vector3
 
-        self.matrix4_create = self._handle.matrix4_create
-        self.matrix4_create.restype = c_void_p
+        self._matrix4_create = self._handle.matrix4_create
+        self._matrix4_create.restype = c_void_p
 
-        self.matrix4_identity = self._handle.matrix4_identity
-        self.matrix4_identity.argtypes = [c_void_p]
+        self._matrix4_identity = self._handle.matrix4_identity
+        self._matrix4_identity.argtypes = [c_void_p]
 
-        self.matrix4_data = self._handle.matrix4_data
-        self.matrix4_data.argtypes = [c_void_p]
-        self.matrix4_data.restype = POINTER(c_float)
+        self._matrix4_set_position = self._handle.matrix4_set_position
+        self._matrix4_set_position.argtypes = [c_void_p, c_float, c_float, c_float]
+
+        self._matrix4_data = self._handle.matrix4_data
+        self._matrix4_data.argtypes = [c_void_p]
+        self._matrix4_data.restype = POINTER(c_float)
 
 
 def CppLib():
@@ -96,6 +102,8 @@ def main():
 
     m = Matrix4()
     m.identity()
+    print(m)
+    m.set_position(10, -5, 6)
     print(m)
 
 

@@ -21,8 +21,9 @@ vector3 vector3_mul(vector3 v1, vector3 v2);
 
 
 vecmath_matrix4_t *matrix4_create();
-void matrix4_identity(vecmath_matrix4_t * m);
-const float* matrix4_data(vecmath_matrix4_t *m);
+void matrix4_identity(vecmath_matrix4_t *m);
+void matrix4_set_position(vecmath_matrix4_t *m, float x, float y, float z);
+const float *matrix4_data(vecmath_matrix4_t *m);
 
 #ifdef __cplusplus
 } // extern(C)
