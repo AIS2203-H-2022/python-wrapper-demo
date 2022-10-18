@@ -5,7 +5,6 @@
 #include "vecmath/matrix4.hpp"
 
 #include <memory>
-#include <iostream>
 
 
 struct vecmath_matrix4 {
@@ -50,5 +49,3 @@ void matrix4_identity(vecmath_matrix4_t *m) {
 const float *matrix4_data(vecmath_matrix4_t *m) {
     return m->cpp_matrix->elements.data();
 }
-
-
