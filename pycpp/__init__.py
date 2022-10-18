@@ -10,6 +10,18 @@ class Vector3(Structure):
     def add(self, other: Vector3) -> Vector3:
         return CppLib()._vector3_add(self, other)
 
+    def sub(self, other: Vector3) -> Vector3:
+        return CppLib()._vector3_sub(self, other)
+
+    def div(self, other: Vector3) -> Vector3:
+        return CppLib()._vector3_div(self, other)
+
+    def mul(self, other: Vector3) -> Vector3:
+        return CppLib()._vector3_mul(self, other)
+
+    def apply_matrix4(self, m: Matrix4) -> Vector3:
+        return CppLib()._vector3_apply_matrix4(self, m._ptr)
+
     def __repr__(self):
         return f"Vector3(x={self.x}, y={self.y}, z={self.z})"
 
@@ -25,6 +37,18 @@ class Matrix4:
 
     def set_position(self, x: float, y: float, z: float) -> Matrix4:
         CppLib()._matrix4_set_position(self._ptr, x, y, z)
+        return self
+
+    def make_rotation_x(self, theta: float):
+        CppLib()._matrix4_make_rotation_x(self._ptr, theta)
+        return self
+
+    def make_rotation_y(self, theta: float):
+        CppLib()._matrix4_make_rotation_y(self._ptr, theta)
+        return self
+
+    def make_rotation_z(self, theta: float):
+        CppLib()._matrix4_make_rotation_z(self._ptr, theta)
         return self
 
     def __repr__(self):
@@ -77,6 +101,10 @@ class _CppLib:
         self._vector3_mul.argtypes = [Vector3, Vector3]
         self._vector3_mul.restype = Vector3
 
+        self._vector3_apply_matrix4 = self._handle.vector3_apply_matrix4
+        self._vector3_apply_matrix4.argtypes = [Vector3, c_void_p]
+        self._vector3_apply_matrix4.restype = Vector3
+
         self._matrix4_create = self._handle.matrix4_create
         self._matrix4_create.restype = c_void_p
 
@@ -85,6 +113,15 @@ class _CppLib:
 
         self._matrix4_set_position = self._handle.matrix4_set_position
         self._matrix4_set_position.argtypes = [c_void_p, c_float, c_float, c_float]
+
+        self._matrix4_make_rotation_x = self._handle.matrix4_make_rotation_x
+        self._matrix4_make_rotation_x.argtypes = [c_void_p, c_float]
+
+        self._matrix4_make_rotation_y = self._handle.matrix4_make_rotation_x
+        self._matrix4_make_rotation_y.argtypes = [c_void_p, c_float]
+
+        self._matrix4_make_rotation_z = self._handle.matrix4_make_rotation_x
+        self._matrix4_make_rotation_z.argtypes = [c_void_p, c_float]
 
         self._matrix4_data = self._handle.matrix4_data
         self._matrix4_data.argtypes = [c_void_p]

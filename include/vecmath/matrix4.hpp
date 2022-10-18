@@ -4,9 +4,11 @@
 
 #include <array>
 
-#include "vector3.hpp"
+
 
 namespace vecmath {
+
+    class vector3; //forward reference
 
     class matrix4 {
     public:
@@ -40,7 +42,7 @@ namespace vecmath {
 
         matrix4 &make_rotation_y(float theta);
 
-        matrix4 &makeRotationZ(float theta);
+        matrix4 &make_rotation_z(float theta);
 
     };
 

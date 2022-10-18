@@ -1,9 +1,11 @@
 
 #include "vecmath/matrix4.hpp"
+#include "vecmath/vector3.hpp"
 
 #include <cmath>
 #include <string>
 #include <stdexcept>
+
 
 using namespace vecmath;
 
@@ -122,7 +124,7 @@ matrix4 &matrix4::make_rotation_y(float theta) {
     return *this;
 }
 
-matrix4 &matrix4::makeRotationZ(float theta) {
+matrix4 &matrix4::make_rotation_z(float theta) {
 
     const float c = std::cos(theta), s = std::sin(theta);
 
