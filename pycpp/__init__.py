@@ -8,7 +8,7 @@ class Vector3(Structure):
     _fields_ = [("x", c_float), ("y", c_float), ("z", c_float)]
 
     def add(self, other: Vector3) -> Vector3:
-        return _CppLib()._vector3_add(self, other)
+        return CppLib()._vector3_add(self, other)
 
     def __repr__(self):
         return f"Vector3(x={self.x}, y={self.y}, z={self.z})"
@@ -33,6 +33,9 @@ class Matrix4:
                f"{data[1]}, {data[5]}, {data[9]}, {data[13]}\n" \
                f"{data[2]}, {data[7]}, {data[10]}, {data[14]}\n" \
                f"{data[3]}, {data[7]}, {data[11]}, {data[15]})"
+
+    def __del__(self):
+        CppLib()._matrix4_destroy(self._ptr)
 
 
 class _CppLib:
@@ -87,6 +90,9 @@ class _CppLib:
         self._matrix4_data.argtypes = [c_void_p]
         self._matrix4_data.restype = POINTER(c_float)
 
+        self._matrix4_destroy = self._handle.matrix4_destroy
+        self._matrix4_destroy.argtypes = [c_void_p]
+
 
 def CppLib():
     if _CppLib._instance is None:
@@ -105,6 +111,8 @@ def main():
     print(m)
     m.set_position(10, -5, 6)
     print(m)
+
+    del m
 
 
 if __name__ == "__main__":

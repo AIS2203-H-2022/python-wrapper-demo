@@ -57,3 +57,7 @@ const float *matrix4_data(vecmath_matrix4_t *m) {
     return m->cpp_matrix->elements.data();
 }
 
+void matrix4_destroy(vecmath_matrix4_t *m) {
+    delete m;
+}
+
