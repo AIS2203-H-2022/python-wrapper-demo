@@ -3,31 +3,41 @@
 
 using namespace vecmath;
 
-vector3::vector3() : vector3(0, 0, 0) {}
+vector3::vector3()
+    : vector3(0, 0, 0)
+{ }
 
 vector3::vector3(float x, float y, float z)
-        : x(x), y(y), z(z) {}
+    : x(x)
+    , y(y)
+    , z(z)
+{ }
 
-vector3 vector3::operator+(const vecmath::vector3 &other) const {
+vector3 vector3::operator+(const vecmath::vector3& other) const
+{
     return {x + other.x, y + other.y, z + other.z};
 }
 
-vector3 vector3::operator-(const vector3 &other) const {
+vector3 vector3::operator-(const vector3& other) const
+{
     return {x - other.x, y - other.y, z - other.z};
 }
 
-vector3 vector3::operator/(const vector3 &other) const {
+vector3 vector3::operator/(const vector3& other) const
+{
     return {x / other.x, y / other.y, z / other.z};
 }
 
-vector3 vector3::operator*(const vector3 &other) const {
+vector3 vector3::operator*(const vector3& other) const
+{
     return {x * other.x, y * other.y, z * other.z};
 }
 
-vector3 vector3::apply_matrix4(const matrix4 &m) {
+vector3 vector3::apply_matrix4(const matrix4& m)
+{
 
     const auto x_ = this->x, y_ = this->y, z_ = this->z;
-    const auto &e = m.elements;
+    const auto& e = m.elements;
 
     const auto w = 1.0f / (e[3] * x + e[7] * y + e[11] * z + e[15]);
 

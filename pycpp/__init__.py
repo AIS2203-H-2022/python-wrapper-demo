@@ -51,6 +51,10 @@ class Matrix4:
         CppLib()._matrix4_make_rotation_z(self._ptr, theta)
         return self
 
+    def copy(self, other: Matrix4):
+        CppLib()._matrix4_copy(self._ptr, other._ptr)
+        return self
+
     def __repr__(self):
         data = CppLib()._matrix4_data(self._ptr)
         return f"Matrix4({data[0]}, {data[4]}, {data[8]}, {data[12]}\n" \
@@ -117,11 +121,14 @@ class _CppLib:
         self._matrix4_make_rotation_x = self._handle.matrix4_make_rotation_x
         self._matrix4_make_rotation_x.argtypes = [c_void_p, c_float]
 
-        self._matrix4_make_rotation_y = self._handle.matrix4_make_rotation_x
+        self._matrix4_make_rotation_y = self._handle.matrix4_make_rotation_y
         self._matrix4_make_rotation_y.argtypes = [c_void_p, c_float]
 
-        self._matrix4_make_rotation_z = self._handle.matrix4_make_rotation_x
+        self._matrix4_make_rotation_z = self._handle.matrix4_make_rotation_z
         self._matrix4_make_rotation_z.argtypes = [c_void_p, c_float]
+
+        self._matrix4_copy = self._handle.matrix4_copy
+        self._matrix4_copy.argtypes = [c_void_p, c_void_p]
 
         self._matrix4_data = self._handle.matrix4_data
         self._matrix4_data.argtypes = [c_void_p]

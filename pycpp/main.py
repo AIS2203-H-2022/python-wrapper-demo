@@ -3,7 +3,7 @@ from pycpp import Vector3, Matrix4
 
 
 def main():
-    v1 = Vector3(1, 2, 3)
+    v1 = Vector3(1, 0, 0)
     v2 = Vector3(1, 1, 1)
     res = v1.add(v2)
     print(res)

@@ -28,6 +28,8 @@ namespace vecmath {
 
         matrix4 &identity();
 
+        matrix4& copy(const matrix4& m);
+
         matrix4 &set_position(const vector3 &v);
 
         matrix4 &set_position(float x, float y, float z);
