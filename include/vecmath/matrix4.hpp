@@ -5,7 +5,6 @@
 #include <array>
 
 
-
 namespace vecmath {
 
     class vector3; //forward reference

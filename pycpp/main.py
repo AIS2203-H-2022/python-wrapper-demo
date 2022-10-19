@@ -20,6 +20,12 @@ def main():
 
     del m
 
+    for i in range(0, 1000):
+        m = Matrix4()
+        m.identity()
+
+    # input("Press enter to continue")
+
 
 if __name__ == "__main__":
     main()

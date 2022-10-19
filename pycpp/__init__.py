@@ -58,9 +58,9 @@ class Matrix4:
     def __repr__(self):
         data = CppLib()._matrix4_data(self._ptr)
         return f"Matrix4({data[0]}, {data[4]}, {data[8]}, {data[12]}\n" \
-               f"{data[1]}, {data[5]}, {data[9]}, {data[13]}\n" \
-               f"{data[2]}, {data[7]}, {data[10]}, {data[14]}\n" \
-               f"{data[3]}, {data[7]}, {data[11]}, {data[15]})"
+               f"        {data[1]}, {data[5]}, {data[9]}, {data[13]}\n" \
+               f"        {data[2]}, {data[7]}, {data[10]}, {data[14]}\n" \
+               f"        {data[3]}, {data[7]}, {data[11]}, {data[15]})"
 
     def __del__(self):
         CppLib()._matrix4_destroy(self._ptr)
