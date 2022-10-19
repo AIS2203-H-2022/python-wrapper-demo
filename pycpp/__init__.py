@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import platform
+from pathlib import Path
 from ctypes import CDLL, Structure, POINTER, c_void_p, c_float
 
 
@@ -71,9 +72,11 @@ class _CppLib:
 
     def __init__(self):
 
+        bin_dir = Path(f"{__file__}/../build/bin")
+
         def prefix() -> str:
             if platform.system() == "Windows":
-                return "Release/"
+                return "Release/" if (bin_dir / "Release").exists() else ""
             elif platform.system() == "Linux":
                 return "lib"
             else:  # Darwin
@@ -87,7 +90,7 @@ class _CppLib:
             else:  # Darwin
                 return ".dylib"
 
-        self._handle = CDLL(f"{__file__}/../build/bin/{prefix()}vecmathc{suffix()}")
+        self._handle = CDLL(f"{bin_dir}/{prefix()}vecmathc{suffix()}")
 
         self._vector3_add = self._handle.vector3_add
         self._vector3_add.argtypes = [Vector3, Vector3]
