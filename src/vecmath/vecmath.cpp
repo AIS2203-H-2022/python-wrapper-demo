@@ -34,17 +34,17 @@ vector3 vector3_add(vector3 v1, vector3 v2)
 
 vector3 vector3_sub(vector3 v1, vector3 v2)
 {
-    return ctype(cpptype(v1) + cpptype(v2));
+    return ctype(cpptype(v1) - cpptype(v2));
 }
 
 vector3 vector3_div(vector3 v1, vector3 v2)
 {
-    return ctype(cpptype(v1) + cpptype(v2));
+    return ctype(cpptype(v1) / cpptype(v2));
 }
 
 vector3 vector3_mul(vector3 v1, vector3 v2)
 {
-    return ctype(cpptype(v1) + cpptype(v2));
+    return ctype(cpptype(v1) * cpptype(v2));
 }
 
 vector3 vector3_apply_matrix4(vector3 v, vecmath_matrix4_t* m)
